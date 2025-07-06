@@ -1,4 +1,3 @@
-// src/components/ChatBot/MessageList.js
 'use client';
 import {useEffect, useRef} from 'react';
 import {useSelector} from 'react-redux';
