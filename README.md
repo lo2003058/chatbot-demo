@@ -1,6 +1,13 @@
 # Pocket Knowledge Bot
 
-A lightweight web chatbot prototype where users maintain a list of facts and ask questions through a floating chat window. The bot answers by quoting the most relevant facts from the user's knowledge base.
+A lightweight web chatbot prototype where users maintain a list of facts and ask questions through a floating chat
+window. The bot answers by quoting the most relevant facts from the user's knowledge base.
+
+## Deploy status
+
+![Vercel Deploy](https://deploy-badge.vercel.app/vercel/chatbot-demo)
+
+**Live demo:** [https://chatbot-demo-phi.vercel.app/](https://chatbot-demo-phi.vercel.app/)
 
 ## 🚀 Quick Start
 
@@ -44,23 +51,26 @@ A lightweight web chatbot prototype where users maintain a list of facts and ask
 3. **Ask Questions**: Type questions related to your facts
 4. **View Citations**: Bot responses include which facts were referenced
 
-## 🧪 Testing
+## 🧪 Live Demo Ready
 
-The app includes a token-based authentication system for testing different company configurations. Select a company from the dropdown in the chat interface to test with different tokens.
+**For the follow-up session:**
 
-**Test companies are configured in**: `src/setting/userInfo.js`
+1. Run `yarn dev` and navigate to `http://localhost:3000`
+2. Add sample facts (e.g., "Company founding date", "Office locations")
+3. Click chat button and ask related questions
+4. Observe fact citations in bot responses
 
-## 🔧 Key Features
+**Testing features:**
 
-- **Real-time fact matching** - Automatically finds relevant facts for user questions
-- **Streaming responses** - Low-latency conversational experience
-- **Responsive design** - Works on desktop and mobile
-- **Persistent storage** - Facts saved locally across sessions
-- **Multi-company support** - Token authentication for testing scenarios
+- Multi-company token authentication (dropdown in chat)
+- Real-time fact matching and citation
+- Persistent storage across browser refresh
+- Streaming response experience
 
-## 🛡️ Security
+## 🎯 Technical Highlights
 
-- API keys stored server-side only
-- Token-based authentication prevents unauthorized access
-- Input validation on all API endpoints
-
+- **Intelligent fact matching** - Custom algorithm finds relevant facts for user queries
+- **Streaming architecture** - Real-time response chunks for low-latency feel
+- **Secure API design** - Server-side OpenAI integration with token authentication
+- **State management** - Redux + localStorage hybrid for optimal UX
+- **Component architecture** - Modular React components with clean separation
