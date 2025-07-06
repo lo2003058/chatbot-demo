@@ -1,5 +1,6 @@
 import {NextResponse} from 'next/server';
 import OpenAI from 'openai';
+import userInfo from '@/setting/userInfo';
 
 const openai = new OpenAI({
   baseURL: process.env.AI_SERVICE_API_ENDPOINT,
@@ -8,7 +9,22 @@ const openai = new OpenAI({
 
 export async function POST(request) {
   try {
-    const {message, facts} = await request.json();
+    const {message, facts, token} = await request.json();
+
+    if (!token) {
+      return NextResponse.json(
+        {error: 'Token is required'},
+        {status: 401}
+      );
+    }
+
+    const company = userInfo.getCompanyByToken(token);
+    if (!company) {
+      return NextResponse.json(
+        {error: 'Unauthorized - Invalid token'},
+        {status: 401}
+      );
+    }
 
     if (!message) {
       return NextResponse.json(

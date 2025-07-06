@@ -11,12 +11,14 @@ import {
 import {PaperAirplaneIcon} from '@heroicons/react/24/outline';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
+import userInfo from '@/setting/userInfo';
 
 export default function MessageInput() {
   const dispatch = useDispatch();
   const {isLoading} = useSelector(state => state.chat);
   const {facts} = useSelector(state => state.facts);
   const [input, setInput] = useState('');
+  const [selectedToken, setSelectedToken] = useState(userInfo.companies[0]?.token || '');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +34,7 @@ export default function MessageInput() {
     dispatch(setLoading(true));
 
     try {
-      // Call streaming API
+      // Call streaming API with token
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
@@ -41,6 +43,7 @@ export default function MessageInput() {
         body: JSON.stringify({
           message: userMessage,
           facts: facts || [],
+          token: selectedToken, // Include the selected token
         }),
       });
 
@@ -110,7 +113,11 @@ export default function MessageInput() {
       // More specific error messages
       let errorMessage = 'Sorry, I encountered an error. Please try again.';
 
-      if (error.message.includes('API key')) {
+      if (error.message.includes('Unauthorized') || error.message.includes('Invalid token')) {
+        errorMessage = 'Authentication failed: Invalid token selected.';
+      } else if (error.message.includes('Token is required')) {
+        errorMessage = 'Authentication error: Token is required.';
+      } else if (error.message.includes('API key')) {
         errorMessage = 'Configuration error: Please check the API key setup.';
       } else if (error.message.includes('Rate limit')) {
         errorMessage = 'Too many requests. Please wait a moment and try again.';
@@ -126,9 +133,34 @@ export default function MessageInput() {
   };
 
   const factsCount = facts ? facts.length : 0;
+  const selectedCompany = userInfo.companies.find(c => c.token === selectedToken);
 
   return (
     <div>
+      {/* Company/Token Selector */}
+      <div className="mb-3 p-2 bg-gray-50 border border-gray-200 rounded text-gray-700">
+        <label className="block text-xs font-medium mb-1">
+          Test as Company:
+        </label>
+        <select
+          value={selectedToken}
+          onChange={(e) => setSelectedToken(e.target.value)}
+          className="block w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+          disabled={isLoading}
+        >
+          {userInfo.companies.map((company) => (
+            <option key={company.id} value={company.token}>
+              {company.name}
+            </option>
+          ))}
+        </select>
+        {selectedCompany && (
+          <div className="text-xs text-gray-500 mt-1">
+            Token: {selectedCompany.token}
+          </div>
+        )}
+      </div>
+
       {/* Show helpful hint when no facts exist */}
       {factsCount === 0 && (
         <div className="mb-2 p-2 bg-amber-50 border border-amber-200 rounded text-xs text-amber-700">

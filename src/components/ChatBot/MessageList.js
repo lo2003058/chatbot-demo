@@ -123,9 +123,10 @@ function TypedMessage({message, isStreaming}) {
         if (typedElementRef.current) {
           typedInstanceRef.current = new Typed(typedElementRef.current, {
             strings: [message.text],
-            typeSpeed: 1000,        // Slower typing speed (was 30)
-            showCursor: false,     // Show cursor so you can see the effect
-            startDelay: 2000,      // Longer delay before starting (was 100)
+            typeSpeed: 70,
+            showCursor: true,
+            cursorChar: "|",
+            startDelay: 300,
             onComplete: () => {
               // Hide cursor after typing is complete
               if (typedInstanceRef.current) {
