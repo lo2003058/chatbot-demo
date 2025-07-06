@@ -1,4 +1,3 @@
-// src/app/api/chat/route.js
 import {NextResponse} from 'next/server';
 import OpenAI from 'openai';
 
@@ -86,7 +85,6 @@ export async function POST(request) {
     const readableStream = new ReadableStream({
       async start(controller) {
         try {
-          // Send the cited facts first
           const factsData = {
             type: 'facts',
             citedFacts: relevantFacts
@@ -177,7 +175,7 @@ function findRelevantFacts(message, facts) {
     }
   });
 
-  // If no specific matches found and we have few facts, include all for context
+  // If no specific matches found, and we have few facts, include all for context
   if (relevantFacts.length === 0 && facts.length <= 5) {
     return facts;
   }

@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import { v4 as uuidv4 } from 'uuid';
 
 const factsSlice = createSlice({
   name: 'facts',
@@ -10,7 +11,7 @@ const factsSlice = createSlice({
   reducers: {
     addFact: (state, action) => {
       const newFact = {
-        id: Date.now().toString(),
+        id: uuidv4(),
         title: action.payload.title,
         content: action.payload.content,
         createdAt: new Date().toISOString(),

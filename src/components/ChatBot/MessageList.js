@@ -79,20 +79,27 @@ export default function MessageList() {
                 )}
               </div>
 
-              {message.citedFacts && message.citedFacts.length > 0 && !message.isStreaming && (
-                <div className="mt-2 pt-2 border-t border-gray-300">
-                  <p className="text-xs text-gray-600 font-medium">Referenced facts:</p>
-                  <ul className="text-xs text-gray-600 mt-1">
-                    {message.citedFacts.map((fact, index) => (
-                      <li key={index}>• {fact.title}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              {
+                message.citedFacts && message.citedFacts.length > 0 && !message.isStreaming && (
+                  <div className="mt-2 pt-2 border-t border-gray-300">
+                    <p className="text-xs text-gray-600 font-medium">Referenced facts:</p>
+                    <ul className="text-xs text-gray-600 mt-1">
+                      {message.citedFacts.map((fact, index) => (
+                        <li key={index}>• {fact.title}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )
+              }
 
-              <div className="text-xs mt-1 opacity-70">
-                {formatTimestamp(message.timestamp)}
-              </div>
+              {
+                message.isStreaming && (
+                  <div className="text-xs mt-1 opacity-70">
+                    {formatTimestamp(message.timestamp)}
+                  </div>
+                )
+              }
+
             </div>
           </div>
         ))
@@ -152,15 +159,6 @@ function TypedMessage({message, isStreaming}) {
     return (
       <div className="flex items-center gap-2">
         <p className="text-sm whitespace-pre-wrap">{message.text}</p>
-        {/*{*/}
-        {/*  !message.text ? (*/}
-        {/*    <div className="flex space-x-1">*/}
-        {/*      <div className="w-1 h-1 bg-gray-400 rounded-full animate-pulse"></div>*/}
-        {/*      <div className="w-1 h-1 bg-gray-400 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>*/}
-        {/*      <div className="w-1 h-1 bg-gray-400 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>*/}
-        {/*    </div>*/}
-        {/*  ) : null*/}
-        {/*}*/}
       </div>
     );
   }

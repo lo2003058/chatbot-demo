@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import { v4 as uuidv4 } from 'uuid';
 
 const chatSlice = createSlice({
   name: 'chat',
@@ -11,7 +12,7 @@ const chatSlice = createSlice({
   reducers: {
     addMessage: (state, action) => {
       const message = {
-        id: action.payload.id || Date.now().toString(),
+        id: action.payload.id || uuidv4(),
         text: action.payload.text,
         sender: action.payload.sender, // 'user' or 'bot'
         timestamp: action.payload.timestamp || new Date().toISOString(),
